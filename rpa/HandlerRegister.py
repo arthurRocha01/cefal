@@ -5,7 +5,11 @@ class HandlerRegister:
   def __init__(self, matching=0.95):
     self.desktop = DesktopBot()
     self.matching = matching
-  
+
+  def _get_corresponding_image(self, field):
+    """Retorna o caminho da imagem correspondente ao campo."""
+    return f'resources/{field}.png'
+
   def _click_in_field(self, template, clicks=1):
     """Clica na imagem especificada pelo template."""
     if not self.desktop.find(template, matching=self.matching):
@@ -14,9 +18,9 @@ class HandlerRegister:
     self.desktop.click()
     slows_flow()
 
-  def write(self, template, text):
+  def write(self, field, text):
     """Escreve o texto no campo identificado pela imagem template."""
-    self._click_in_field(template)
+    self._click_in_field(self._get_corresponding_image(field))
     self.desktop.type_keys(text)
 
   def save(self):
