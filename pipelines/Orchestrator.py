@@ -1,5 +1,5 @@
 from interface.ProcessInterface import ProcessInterface
-from rpa.HandlerRegister import HandlerRegister
+from rpa.handlers.HandlerRegister import HandlerRegister
 
 class Orchestrator:
     def __init__(self):
