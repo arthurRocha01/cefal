@@ -1,4 +1,4 @@
-from HandlerRegister import HandlerRegister
+from rpa.handlers.HandlerRegister import HandlerRegister
 import config.settings as settings
 
 class Register:
