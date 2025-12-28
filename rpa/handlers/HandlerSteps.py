@@ -1,4 +1,4 @@
-from lib.BotCityLib import BotCityLib
+from ..lib.BotCityLib import BotCityLib
 
 class HandlerSteps:
     def __init__(self, template):
@@ -7,4 +7,5 @@ class HandlerSteps:
 
     def take_steps(self):
         """Executa os passos necessários para o registro."""
-        pass
+        self.bot.click_in_field('cadastro')
+        print('Clicou no campo de cadastro.')
