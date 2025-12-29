@@ -2,7 +2,7 @@ from ..lib.BotCityLib import BotCityLib
 from pathlib import Path
 import re
 
-class HandlerSteps:
+class StepHandler:
     def __init__(self, template):
         self.template = template
         self.bot = BotCityLib(template)

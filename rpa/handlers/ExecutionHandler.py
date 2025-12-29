@@ -1,7 +1,7 @@
 from lib.BotCityLib import BotCityLib
 import re
 
-class HandlerRegister:
+class ExecutionHandler:
   def __init__(self):
     self.bot = BotCityLib('register')
 
