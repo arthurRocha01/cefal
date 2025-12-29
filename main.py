@@ -1,5 +1,4 @@
 from pipelines.Orchestrator import Orchestrator
-from config.settings import *
 
 def main():
     orchestrator = Orchestrator()
