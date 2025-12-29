@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 class ImageFileLoader:
     def __init__(self, template):
@@ -12,6 +13,7 @@ class ImageFileLoader:
             print(f'Aviso: Diretório {final_path} não encontrado.')
             return
         
+        
         for image_file in final_path.glob(f'*{self.extension}'):
             yield {
                 'label': image_file.stem,
@@ -20,6 +22,8 @@ class ImageFileLoader:
 
     def upload_images_files(self, bot):
         for category in ['steps', 'executions']:
-            for image in self._upload_images_files_from_category(category):
+            images = list(self._upload_images_files_from_category(category))
+            images.sort(key=lambda x: [int(c) if c.isdigit() else c for c in re.split(r'(\d+)', x['label'])])
+            for image in images:
                 bot.desktop.add_image(image['label'], image['path'])
                 print(f'Imagem carregada: {image["label"]} do diretório {category}')
