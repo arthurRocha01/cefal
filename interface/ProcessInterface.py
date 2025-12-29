@@ -25,4 +25,9 @@ class ProcessInterface:
 
     def read_xlsx(self, file_path):
         """Lê um arquivo XLSX e retorna os dados como uma lista de dicionários."""
-        pass
+        try:
+            df = pd.read_excel(file_path, dtype=str, sheet_name=0, engine='openpyxl')
+            df = self._sanitize_data(df)
+            return df.to_dict('records')
+        except Exception as e:
+            raise Exception(f'Erro ao ler o arquivo XLSX: {str(e)}')
