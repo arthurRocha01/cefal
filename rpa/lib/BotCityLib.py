@@ -29,7 +29,7 @@ class BotCityLib:
         self.desktop.click()
         slows_flow()
 
-    def write(self, field, text):
+    def write(self, label, text):
         """Escreve o texto no campo identificado pela imagem template."""
-        self._click_in_field(self._get_corresponding_image(field), type)
+        self.click_in_field(label)
         self.desktop.type_keys(text)
