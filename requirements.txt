@@ -1,1 +1,3 @@
 botcity-framework-core
+pandas
+openpyxl
