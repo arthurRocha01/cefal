@@ -10,14 +10,15 @@ class BotCityLib:
         self.matching = matching
         self.base_dir = os.getcwd()
         self.image_loader = ImageFileLoader(template)
-        self.images = {}
 
         self._initialize_resources_template()
 
     def _initialize_resources_template(self):
         """Inicializa os recursos de template de imagens."""
-        self.images = self.image_loader.upload_images_files(self)
-        print(f'Imagens mapeadas: {list(self.desktop.state.map_images.keys())}')
+        self.image_loader.upload_images_files(self)
+
+        self.images_mapped = list(self.desktop.state.map_images.keys())
+        print(f'Imagens mapeadas: {self.images_mapped}')
 
     def click_in_field(self, template, clicks=1):
         """Clica na imagem especificada pelo template."""
