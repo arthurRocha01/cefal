@@ -20,11 +20,14 @@ class BotCityLib:
         self.images_mapped = list(self.desktop.state.map_images.keys())
         print(f'Imagens mapeadas: {self.images_mapped}')
 
-    def click_in_field(self, template, clicks=1):
+    def scroll_screen(self, clicks):
+        self.desktop.scroll_down(clicks)
+
+    def click_in_field(self, label, clicks=1):
         """Clica na imagem especificada pelo template."""
-        print(f'Buscando por: {template}')
-        if not self.desktop.find(template, matching=self.matching):
-            raise Exception(f'Imagem não encontrada: {template}')
+        print(label)
+        if not self.desktop.find(label, matching=self.matching):
+            raise Exception(f'Imagem não encontrada: {label}')
         
         self.desktop.click()
         slows_flow()

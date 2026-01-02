@@ -1,11 +1,24 @@
-from rpa.handlers.HandlerRegister import HandlerRegister
-import config.settings as settings
+from rpa.handlers.ExecutionHandler import ExecutionHandler
+from rpa.handlers.StepHandler import StepHandler
 
 class Register:
-    def __init__(self, handler: HandlerRegister):
-        self.fields = settings.FIELDS
-        self.handler = handler
+    def __init__(self):
+        self.template = 'register'
+        self.execution_handler = ExecutionHandler(self.template)
+        self.step_handler = StepHandler(self.template)
 
-    def run(self):
+        self.fields = [
+            'name', 'barcode', 'quantity', 'price', 'wholesale_price', 'wholesale_minimun_quantity'
+        ]
+        self.buttons = [
+            'save'
+        ]
+
+    def run(self, data):
         """Executa o registro dos produtos com base nos dados passados."""
-        pass
+        try:
+            self.step_handler.take_steps()
+        except Exception:
+            print('Erro ao executar passos iniciais.')
+        
+        self.execution_handler.save(data)
