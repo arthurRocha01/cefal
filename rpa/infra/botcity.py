@@ -13,3 +13,10 @@ def type_text(text):
 
 def scroll(amount):
     _bot.scroll_down(amount)
+
+def add_img(label, path):
+    _bot.add_image(label, path)
+    print(f'Mapped images: {list(_bot.state.map_images.keys())}')
+
+def clear_images():
+    _bot.state.map_images.clear()
