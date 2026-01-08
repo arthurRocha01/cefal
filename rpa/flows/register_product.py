@@ -9,7 +9,7 @@ TEMPLATE = 'register'
 @with_template(TEMPLATE, 'executions')
 def register_products(data):
     for item in data:
-        for field in REGISTER[TEMPLATE]['executions'][:-1]:
+        for field in REGISTER[TEMPLATE]['executions'][:-1]: # Exclui o último campo (botão salvar)
             print(f'Typing in field: {field} with value: {item[field]}')
             type_in(field, item[field])
             if field == 'name':
