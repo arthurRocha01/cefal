@@ -12,40 +12,50 @@ Desenvolvido sob os rigorosos princípios de **Clean Code** e **Separação de P
 * **Camada de Orquestração:** Controle inteligente do ciclo de vida da automação.
 * **Camada de Execução:** Implementação granular dos passos do fluxo de trabalho.
 
-A organização do diretório reflete a separação de responsabilidades, facilitando a manutenção e o isolamento de componentes:
+---
 
-```text
-.
-├── 📂 config           # Configurações globais e constantes do RPA
-├── 📂 interface        # Definições de contratos e classes abstratas
-├── 📂 pipelines        # Orquestração do fluxo de dados e lógica de decisão
-├── 📂 resources        # Ativos externos (CSVs de dados e templates de imagem)
-├── 📂 rpa              # Core do motor de automação
-│   ├── 📂 actions      # Comandos atômicos (clique, digitação, etc.)
-│   ├── 📂 flows        # Sequências lógicas de negócio (fluxos)
-│   └── 📂 infra        # Bootstrapping, suporte à visão computacional e utilitários
-└── main.py             # Ponto de entrada da aplicação
-```
+## Configuração e Extensibilidade
+
+A flexibilidade do **CeFal** é gerenciada centralizadamente através do arquivo `config/rpa_settings.py`. Este arquivo permite que o usuário defina a lógica de navegação sem alterar o núcleo do motor:
+
+### 1. Definição de Fluxos
+No arquivo de configuração, o usuário determina os elementos através de dois arrays principais:
+* **`steps`**: Define os passos iniciais necessários para preparar o ambiente (ex: navegar até a tela de cadastro).
+* **`executions`**: Define a sequência exata de campos e ações que o robô deve seguir para a tarefa principal.
+
+### 2. Sincronização de Ativos
+Para o funcionamento correto, o CeFal exige uma correspondência estrita de nomenclatura:
+* **Dados:** Os nomes definidos nos arrays devem coincidir com as colunas/chaves do arquivo de dados em `resources/data/`.
+* **Imagens:** As capturas para visão computacional devem ser alocadas em `resources/templates/[nome_template]/`, separadas nas subpastas `/steps` e `/executions`, com nomes de arquivos idênticos aos definidos na configuração.
 
 ---
 
 ## Diferenciais Técnicos
 
-### Visão Computacional
-Implementação robusta baseada na biblioteca **BotCity**, permitindo que o agente interaja com interfaces gráficas de forma humana, resiliente e precisa.
+* **Visão Computacional:** Implementação baseada na biblioteca **BotCity**, permitindo interações resilientes com interfaces gráficas.
+* **Modularidade:** Paradigma que permite a criação de novos fluxos apenas via configuração e novos ativos de imagem, sem refatoração de código.
+* **Abstração Avançada:** Uso de **Decorators** e **Closures** para o *auto-discovery* e carregamento dinâmico de templates de imagem baseados no contexto da execução.
 
-### Modularidade de Processos
-Paradigma de desenvolvimento que permite a definição de fluxos customizados. O sistema adapta-se a diferentes regras de negócio sem exigir refatoração do núcleo (*core*) da aplicação.
+---
 
-### Abstração de Infraestrutura
-Uso de padrões avançados de desenvolvimento Python, como **Decorators** e **Closures**, para o provisionamento dinâmico de recursos (como carregamento automático de templates de imagem).
+## Estrutura do Projeto
+
+```text
+.
+├── 📂 config           # rpa_settings.py: O "cérebro" da configuração
+├── 📂 interface        # Definições de contratos e classes abstratas
+├── 📂 pipelines        # Orchestrator.py: Gestão do fluxo de dados
+├── 📂 resources        # Ativos (CSVs de dados e templates de imagem)
+│   ├── 📂 data         # Origem dos dados (Ex: produtos.csv)
+│   └── 📂 templates    # Screenshots para visão computacional
+├── 📂 rpa              # Motor de automação
+│   ├── 📂 actions      # Comandos atômicos (click, type)
+│   ├── 📂 flows        # Lógica de negócio (register, etc)
+│   └── 📂 infra        # Suporte, Bootstrap e Gestão de Imagens
+└── main.py             # Entry point
+```
 
 ---
 
 ## Propósito
-
-O **CeFal** foi concebido como uma **Prova de Conceito (PoC)** para demonstrar como a automação de baixo nível pode reduzir drasticamente custos operacionais e eliminar gargalos de produtividade, especialmente em cenários onde a modernização do software legado não é uma alternativa imediata.
-
----
-
-> *Desenvolvido como projeto de engenharia para demonstração de conceitos avançados de automação e arquitetura de software.*
+O CeFal foi concebido como uma Prova de Conceito (PoC) para demonstrar como a automação de baixo nível pode reduzir custos operacionais e eliminar gargalos de produtividade em cenários onde a modernização do software legado não é uma alternativa imediata.
