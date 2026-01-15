@@ -1,8 +1,11 @@
 from botcity.core import DesktopBot
+from config.rpa_settings import TIME_WAIT
+from config.rpa_settings import MATCHING
 
 _bot = DesktopBot()
+_bot.wait(TIME_WAIT)
 
-def find(label, matching=0.95):
+def find(label, matching=MATCHING):
     return _bot.find(label, matching=matching)
 
 def click():
