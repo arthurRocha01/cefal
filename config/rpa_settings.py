@@ -1,3 +1,8 @@
+# Configurações do RPA
+TIME_WAIT = 0.7
+MATCHING = 0.90
+
+
 REGISTER = {
     'register': {
         'steps': ['register', 'products', 'add'],
@@ -7,3 +12,4 @@ REGISTER = {
 
 # Configurações de Logging
 LOG_DIR = 'logs'
+
