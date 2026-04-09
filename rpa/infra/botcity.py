@@ -11,8 +11,24 @@ def click():
 def type_text(text):
     _bot.type_keys(text)
 
-def scroll(amount):
-    _bot.scroll_down(amount)
+def scroll(direction, amount=100):
+    """Realiza rolagem na direção especificada.
+
+    Args:
+        direction (str): Direção da rolagem ('up', 'down')
+        amount (int): Quantidade de rolagem em pixels
+
+    Note:
+        Atualmente só suporta 'up' e 'down' pois o DesktopBot não tem
+        métodos nativos para scroll left/right.
+    """
+    direction = direction.lower()
+    if direction == 'up':
+        _bot.scroll_up(amount)
+    elif direction == 'down':
+        _bot.scroll_down(amount)
+    else:
+        raise ValueError(f"Direção inválida: {direction}. Use: 'up', 'down'")
 
 def add_img(label, path):
     _bot.add_image(label, path)
@@ -20,3 +36,7 @@ def add_img(label, path):
 
 def clear_images():
     _bot.state.map_images.clear()
+
+def take_screenshot(path):
+    """Tira uma captura de tela e salva no caminho especificado."""
+    _bot.screenshot(path)
