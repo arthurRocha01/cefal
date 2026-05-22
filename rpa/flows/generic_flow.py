@@ -42,12 +42,18 @@ class GenericFlow(BaseFlow):
         workflow_desc = self.config.get('description', 'Desconhecido')
         self.logger.info(f"Iniciando execução do workflow: {workflow_desc}")
 
-        # 1. Executa passos iniciais
-        self.execute_initial_steps()
-
-        # 2. Processa cada registro de dados
+        # Processa cada registro de dados
         for record_idx, record in enumerate(self.data):
             self.logger.info(f"Processando registro {record_idx + 1}/{len(self.data)}")
+
+            # Navega para o formulário antes de cada registro
+            if record_idx == 0:
+                # Primeiro registro: executa steps completos (register → products → add)
+                self.execute_initial_steps()
+            else:
+                # Registros seguintes: só clica em add para novo formulário
+                from rpa.actions.click import click_image
+                click_image('add')
 
             try:
                 result = self._process_record(record)
@@ -179,10 +185,21 @@ class GenericFlow(BaseFlow):
         Returns:
             dict: Dados mapeados para campos do workflow
         """
+        # Se o registro já tem campos no formato do workflow (ex: 'name', 'barcode')
+        # o mapeamento já foi aplicado upstream, retorna como está
         mapped_data = {}
 
         # Obtém mapeamento de campos da configuração
         field_mapping = self.data_mapping.get('field_mapping', {})
+        target_fields = set(field_mapping.values())
+
+        # Detecta se o registro já está no formato destino
+        has_target_fields = target_fields and any(f in record for f in target_fields)
+        has_source_fields = any(f in record for f in field_mapping)
+
+        if has_target_fields and not has_source_fields:
+            # Dados já mapeados, retorna o registro original
+            return record
 
         # Mapeia cada campo
         for source_field, target_field in field_mapping.items():

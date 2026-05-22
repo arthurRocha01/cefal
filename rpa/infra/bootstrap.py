@@ -10,6 +10,7 @@ from rpa.infra.botcity import add_img, clear_images
 from rpa.infra.images import get_image_paths, get_label_from_image_path
 from rpa.actions.action_factory import ActionFactory
 from config.workflows import WORKFLOWS
+from config.settings import set_matching_threshold
 
 
 def with_template(template: str, group: str):
@@ -59,15 +60,23 @@ def clear_all_images() -> None:
     clear_images()
 
 
-def initialize_system() -> None:
+def initialize_system(matching: float = None) -> None:
     """
     Inicializa o sistema CeFal com a nova arquitetura.
 
     Esta função:
     1. Inicializa a ActionFactory com todas as ações disponíveis
-    2. Configura o ambiente para execução de workflows
-    3. Prepara o sistema para uso
+    2. Configura o matching threshold para busca de imagens
+    3. Configura o ambiente para execução de workflows
+    4. Prepara o sistema para uso
+
+    Args:
+        matching (float, optional): Similaridade mínima para matching de imagens
     """
+    # Define matching threshold se fornecido
+    if matching is not None:
+        set_matching_threshold(matching)
+
     # Inicializa a ActionFactory
     ActionFactory.initialize()
 
@@ -116,12 +125,16 @@ def prepare_workflow_execution(workflow_name: str) -> Dict:
     if not config:
         raise ValueError(f"Workflow '{workflow_name}' não encontrado")
 
-    # Carrega imagens do template do workflow
+    # Carrega imagens do template do workflow — steps e execuções
     template = config.get('template')
-    steps_group = 'steps'  # Grupo padrão para steps
 
     if template:
-        loaded_images = load_template_images(template, steps_group)
-        print(f"✅ Imagens carregadas para workflow '{workflow_name}': {loaded_images}")
+        # Carrega imagens de navegação (steps)
+        loaded_steps = load_template_images(template, 'steps')
+        print(f"✅ Imagens steps carregadas: {loaded_steps}")
+
+        # Carrega imagens de execução (campos, botões)
+        loaded_executions = load_template_images(template, 'executions')
+        print(f"✅ Imagens de execução carregadas: {loaded_executions}")
 
     return config

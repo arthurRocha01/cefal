@@ -3,6 +3,7 @@ from rpa.actions.click import click_image
 from rpa.infra.images import get_label_from_image_path
 from config.rpa_settings import REGISTER
 
+
 def take_initial_steps(template='register', steps=None):
     """
     Executa os passos iniciais de um workflow.

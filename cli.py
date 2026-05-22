@@ -153,6 +153,13 @@ Para mais informações, consulte a documentação em docs/.
         help='Modo verboso (mostra mais informações)'
     )
 
+    parser.add_argument(
+        '--matching', '-m',
+        type=float,
+        default=None,
+        help='Similaridade mínima para matching de imagens (0.0 a 1.0, default: 0.85)'
+    )
+
     # Opções para execução
     parser.add_argument(
         '--data', '-d',
@@ -202,7 +209,7 @@ def main() -> int:
     try:
         logger.info("Inicializando sistema CeFal")
         print("🔧 Inicializando sistema CeFal...")
-        initialize_system()
+        initialize_system(matching=args.matching)
         logger.info("Sistema inicializado com sucesso")
         print("✅ Sistema inicializado com sucesso\n")
     except Exception as e:

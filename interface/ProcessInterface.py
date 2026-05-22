@@ -14,6 +14,15 @@ class ProcessInterface:
         
         return data
 
+    def read_data(self, file_path: str):
+        """Lê um arquivo CSV ou XLSX, detectando o formato pela extensão."""
+        if file_path.endswith('.csv'):
+            return self.read_csv(file_path)
+        elif file_path.endswith('.xlsx'):
+            return self.read_xlsx(file_path)
+        else:
+            raise Exception(f'Formato de arquivo não suportado: {file_path}')
+
     def read_csv(self, file_path):
         """Lê um arquivo CSV e retorna os dados como uma lista de dicionários."""
         try:

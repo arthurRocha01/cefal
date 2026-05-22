@@ -141,14 +141,20 @@ sudo apt-get install python3-dev
 
 ### Via CLI
 ```bash
-# Executar um workflow específico
-python cli.py --workflow cadastro_produtos
-
 # Listar workflows disponíveis
 python cli.py --list
 
-# Executar com logging detalhado
-python cli.py --workflow cadastro_produtos --verbose
+# Executar um workflow com arquivo de dados
+python cli.py cadastro_produtos --data produtos.csv
+
+# Executar com matching de imagem customizado (default: 0.85)
+python cli.py cadastro_produtos --data produtos.csv --matching 0.7
+
+# Executar com dados de teste (modo dev)
+python cli.py cadastro_produtos --test-data
+
+# Ajuda completa
+python cli.py --help
 ```
 
 ### Via Python
@@ -283,6 +289,18 @@ rm -rf venv/
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+```
+
+#### 6. Matching de imagens (similaridade)
+O matching padrão é 0.85 (85%). Imagens capturadas em resoluções ou temas
+diferentes podem não ser encontradas. Use a flag `--matching` para ajustar:
+
+```bash
+# Matching mais permissivo (úsar com cautela)
+python cli.py cadastro_produtos --data produtos.csv --matching 0.6
+
+# Matching mais rigoroso (imagem deve ser muito similar)
+python cli.py cadastro_produtos --data produtos.csv --matching 0.95
 ```
 
 ---

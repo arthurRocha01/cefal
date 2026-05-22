@@ -1,8 +1,11 @@
 from botcity.core import DesktopBot
+from config.settings import get_matching_threshold
 
 _bot = DesktopBot()
 
-def find(label, matching=0.95):
+def find(label, matching=None):
+    if matching is None:
+        matching = get_matching_threshold()
     return _bot.find(label, matching=matching)
 
 def click():

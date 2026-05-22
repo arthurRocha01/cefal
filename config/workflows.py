@@ -8,11 +8,13 @@ WORKFLOWS = {
         'steps': ['register', 'products', 'add'],
         'actions': [
             {'type': 'type', 'field': 'name', 'required': True},
+            {'type': 'scroll', 'field': 'down', 'value': '7'},
             {'type': 'type', 'field': 'barcode', 'required': False},
             {'type': 'type', 'field': 'quantity', 'required': True},
             {'type': 'type', 'field': 'price', 'required': True},
             {'type': 'type', 'field': 'wholesale_price', 'required': False},
             {'type': 'type', 'field': 'wholesale_minimum_quantity', 'required': False},
+            {'type': 'scroll', 'field': 'down', 'value': '7'},
             {'type': 'click', 'field': 'save', 'action': 'final'},
         ],
         'data_mapping': {
